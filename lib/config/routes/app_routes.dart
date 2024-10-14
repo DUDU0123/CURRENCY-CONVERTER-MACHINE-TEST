@@ -4,6 +4,6 @@ import 'package:flutter/material.dart';
 
 class AppRoutes{
   static Map<String, Widget Function(BuildContext)> routes = {
-    RoutesName.homePage : (context)=>const CurrencyConverterHomePage(),
+    RoutesName.homePage : (context)=>CurrencyConverterHomePage(),
   };
 }

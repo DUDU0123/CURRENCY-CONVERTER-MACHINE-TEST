@@ -7,7 +7,7 @@ class TextFieldCommon extends StatelessWidget {
     this.suffixIcon,
     this.hintText,
     this.controller,
-    required this.textAlign,
+    this.textAlign,
     this.enabled,
     this.keyboardType,
     this.style,
@@ -21,6 +21,7 @@ class TextFieldCommon extends StatelessWidget {
     this.labelText,
     this.hintStyle,
     this.labelStyle,
+    this.filled,
   });
   final InputBorder? border;
   final TextStyle? style;
@@ -28,7 +29,7 @@ class TextFieldCommon extends StatelessWidget {
   final String? hintText;
   final String? labelText;
   final TextEditingController? controller;
-  final TextAlign textAlign;
+  final TextAlign? textAlign;
   final bool? enabled;
   final TextInputType? keyboardType;
   final Widget? prefix;
@@ -40,10 +41,12 @@ class TextFieldCommon extends StatelessWidget {
   final int? minLines;
   final TextStyle? labelStyle;
   final TextStyle? hintStyle;
+  final bool? filled;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
       onChanged: onChanged,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -56,8 +59,9 @@ class TextFieldCommon extends StatelessWidget {
       keyboardType: keyboardType,
       controller: controller,
       enabled: enabled,
-      textAlign: textAlign,
+      textAlign: textAlign??TextAlign.start,
       decoration: InputDecoration(
+        filled: filled,
         prefix: prefix,
         labelText: labelText,
         fillColor: fillColor ?? kTransparent,
