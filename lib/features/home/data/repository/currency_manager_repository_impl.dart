@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:currency_converter/core/exception/exceptions.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -17,7 +19,12 @@ class CurrencyManagerRepositoryImpl implements CurrencyManagerRepository {
       required String? to,
       required String amountToConvert}) async {
     try {
-      final convertedCurrency = await currencyData.convertCurrency(from: from, to: to, amountToConvert: amountToConvert,);
+      final convertedCurrency = await currencyData.convertCurrency(
+        from: from,
+        to: to,
+        amountToConvert: amountToConvert,
+      );
+      print("Convereted currency: $convertedCurrency");
       return right(convertedCurrency);
     } on ServerException catch (e) {
       return left(Failure(message: e.message));

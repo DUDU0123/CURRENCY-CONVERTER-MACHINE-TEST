@@ -57,11 +57,12 @@ class CurrencyManagerCubit extends Cubit<CurrencyManagerState> {
       result.fold(
         (failure) {
           print("Fetching currencies...${failure.message}"); 
-          emit(state.copyWith(message: failure.message));
+          emit(state.copyWith(message: failure.message, isConverted: false));
         },
         (convertedResult) {
+
           print("Fetching currencies...$convertedResult"); 
-          emit(state.copyWith(convertedResult: convertedResult));
+          emit(state.copyWith(convertedResult: convertedResult,isConverted: true ));
         },
       );
     } catch (e) {

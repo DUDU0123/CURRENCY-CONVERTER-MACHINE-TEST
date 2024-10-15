@@ -31,7 +31,7 @@ class CurrencyConvertButton extends StatelessWidget {
       child: Container(
         width: screenWidth(context: context),
         decoration: BoxDecoration(
-          color: Colors.blue.shade700,
+          color: const Color.fromARGB(217, 51, 82, 255),
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.symmetric(vertical: 16),

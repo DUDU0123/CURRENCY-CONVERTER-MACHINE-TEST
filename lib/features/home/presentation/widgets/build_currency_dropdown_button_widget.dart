@@ -2,7 +2,7 @@ import 'package:currency_converter/features/home/presentation/bloc/cubit/currenc
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BuildCurrencyDropdownButtonWidget extends StatelessWidget {
+class BuildCurrencyDropdownButtonWidget extends StatefulWidget {
   final String label, value;
   final void Function(String?) onChanged;
   const BuildCurrencyDropdownButtonWidget({
@@ -13,14 +13,24 @@ class BuildCurrencyDropdownButtonWidget extends StatelessWidget {
   });
 
   @override
+  State<BuildCurrencyDropdownButtonWidget> createState() => _BuildCurrencyDropdownButtonWidgetState();
+}
+
+class _BuildCurrencyDropdownButtonWidgetState extends State<BuildCurrencyDropdownButtonWidget> {
+  @override
+  void initState() {
+    context.read<CurrencyManagerCubit>().getAllCurrencies();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<CurrencyManagerCubit, CurrencyManagerState>(
       builder: (context, state) {
         final currencies = state.allCurrenciesModel?.currencies ?? [];
-        String? selectedValue = currencies.contains(value) ? value : null;
+        String? selectedValue = currencies.contains(widget.value) ? widget.value : null;
         return DropdownButtonFormField<String>(
           value: selectedValue,
-          onChanged: onChanged,
+          onChanged: widget.onChanged,
           items: currencies.map<DropdownMenuItem<String>>((String currency) {
             return DropdownMenuItem<String>(
               value: currency,
@@ -28,7 +38,7 @@ class BuildCurrencyDropdownButtonWidget extends StatelessWidget {
             );
           }).toList(),
           decoration: InputDecoration(
-            labelText: label,
+            labelText: widget.label,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
             ),
