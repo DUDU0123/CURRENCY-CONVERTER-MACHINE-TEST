@@ -66,14 +66,10 @@ class CurrencyDataImpl extends CurrencyData {
             await dio.get(ApiEndPoints.conversionEndPoint(fromCurrency: from));
 
         if (response.statusCode == 200) {
-          Map<String, dynamic> data = response.data;
-          log("TO: $to from:  $from");
           final Map<String, dynamic> fromMap = response.data[from];
-          log("From: ${response.data[from]}");
           if (fromMap.containsKey(to)) {
-            double rate = data[to];
-            log(name: 'Rate', rate.toString());
-            return rate * double.parse(amountToConvert);
+            double rate = fromMap[to];
+            return (rate * double.parse(amountToConvert)).round().toDouble();
           } else {
             throw ServerException(message: 'Invalid target currency');
           }
@@ -83,38 +79,13 @@ class CurrencyDataImpl extends CurrencyData {
       } else {
         throw ServerException(message: 'Provide valid data');
       }
+    } on DioException catch (_) {
+      throw ServerException(message: 'Check your network connection');
     } catch (e, stackTrace) {
       log("StackTrace $stackTrace");
       throw Exception(e.toString());
+    } finally {
+      dio.close();
     }
   }
-//   @override
-//   Future<double>? convertCurrency({
-//   required String? from,
-//   required String? to,
-//   required String amountToConvert,
-// }) async {
-//   try {
-//     if (from != null && to != null && amountToConvert.isNotEmpty) {
-//       // This map should be stored as a class variable or imported from elsewhere
-//         final response = await dio
-//             .get(ApiEndPoints.conversionEndPoint(fromCurrency: from));
-//       log(response.data);
-//       if (from.toLowerCase() != from) {
-//         throw ServerException(message: 'This function only supports conversion from USD');
-//       }
-
-//       if (response.data.containsKey(to.toLowerCase())) {
-//         double rate = response.data[to.toLowerCase()];
-//         return rate * double.parse(amountToConvert);
-//       } else {
-//         throw ServerException(message: 'Invalid target currency');
-//       }
-//     } else {
-//       throw ServerException(message: 'Provide valid data');
-//     }
-//   } catch (e) {
-//     throw Exception(e.toString());
-//   }
-// }
 }

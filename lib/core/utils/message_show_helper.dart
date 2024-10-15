@@ -48,7 +48,7 @@ class MessageShowhelper {
           fontSize: 18,
         ),
         backgroundColor: kBlack,
-        duration: const Duration(seconds: 2,),
+        duration: const Duration(seconds: 1,),
       ),
     );
   }
