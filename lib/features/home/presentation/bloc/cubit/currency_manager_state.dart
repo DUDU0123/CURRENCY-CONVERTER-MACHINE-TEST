@@ -7,10 +7,12 @@ class CurrencyManagerState extends Equatable {
     this.message,
     this.isConverted = false,
     this.fromCurrency = 'usd',
-    this.toCurrency ='eur',
+    this.toCurrency = 'eur',
+    this.lastFiveConversion = const [],
   });
   final CurrencyEntity? allCurrenciesModel;
   final double? convertedResult;
+  List<ConvertedCurrencyEntity> lastFiveConversion;
   final String? message;
   String fromCurrency;
   String toCurrency;
@@ -19,14 +21,20 @@ class CurrencyManagerState extends Equatable {
   List<Object> get props => [
         message ?? '',
         convertedResult ?? 0.0,
-        allCurrenciesModel ?? const CurrencyEntity(),toCurrency,fromCurrency, isConverted,
+        allCurrenciesModel ?? const CurrencyEntity(),
+        toCurrency,
+        fromCurrency,
+        isConverted,
+        lastFiveConversion,
       ];
 
   CurrencyManagerState copyWith({
     CurrencyEntity? allCurrenciesModel,
     double? convertedResult,
     String? message,
-    String? fromCurrency,bool? isConverted,
+    String? fromCurrency,
+    bool? isConverted,
+    List<ConvertedCurrencyEntity>? lastFiveConversion,
     String? toCurrency,
   }) {
     return CurrencyManagerState(
@@ -35,7 +43,8 @@ class CurrencyManagerState extends Equatable {
       message: message ?? this.message,
       fromCurrency: fromCurrency ?? this.fromCurrency,
       toCurrency: toCurrency ?? this.toCurrency,
-      isConverted: isConverted??this.isConverted,
+      isConverted: isConverted ?? this.isConverted,
+      lastFiveConversion: lastFiveConversion ?? this.lastFiveConversion,
     );
   }
 }

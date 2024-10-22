@@ -4,14 +4,14 @@ import 'package:currency_converter/features/home/domain/repository/currency_mana
 import 'package:currency_converter/features/home/domain/usecases/convert_currency_usecase.dart';
 import 'package:currency_converter/features/home/domain/usecases/get_all_currencies_usecase.dart';
 import 'package:currency_converter/features/home/presentation/bloc/cubit/currency_manager_cubit.dart';
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 
 GetIt serviceLocator = GetIt.instance;
 
 initDependencies() {
-  serviceLocator.registerFactory<Dio>(
-    () => Dio(),
+  serviceLocator.registerFactory<http.Client>(
+    () => http.Client(),
   );
   initCurrencyManageDependencies();
 }
@@ -20,7 +20,7 @@ void initCurrencyManageDependencies() {
   serviceLocator
     ..registerFactory<CurrencyData>(
       () => CurrencyDataImpl(
-        dio: serviceLocator<Dio>(),
+        client: serviceLocator<http.Client>(),
       ),
     )
     ..registerFactory<CurrencyManagerRepository>(

@@ -2,7 +2,6 @@ import 'package:currency_converter/core/common_widgets/text_widget_common.dart';
 import 'package:currency_converter/core/constants/colors.dart';
 import 'package:currency_converter/core/constants/navigator_key.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MessageShowhelper {
  static void showDialogBox({

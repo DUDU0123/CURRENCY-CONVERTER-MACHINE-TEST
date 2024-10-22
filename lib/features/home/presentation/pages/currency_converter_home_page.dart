@@ -1,13 +1,13 @@
 import 'package:currency_converter/core/common_widgets/text_field_widget_common.dart';
-import 'package:currency_converter/core/constants/colors.dart';
 import 'package:currency_converter/core/constants/height_width.dart';
 import 'package:currency_converter/core/utils/message_show_helper.dart';
 import 'package:currency_converter/features/home/presentation/bloc/cubit/currency_manager_cubit.dart';
-import 'package:currency_converter/features/home/presentation/utils/common_decoration.dart';
 import 'package:currency_converter/features/home/presentation/widgets/build_currency_dropdown_button_widget.dart';
 import 'package:currency_converter/features/home/presentation/widgets/converted_currency_show_widget.dart';
 import 'package:currency_converter/features/home/presentation/widgets/currency_convert_button.dart';
 import 'package:currency_converter/features/home/presentation/widgets/heading_widget.dart';
+import 'package:currency_converter/features/home/presentation/widgets/last_five_conversion_title_widget.dart';
+import 'package:currency_converter/features/home/presentation/widgets/last_five_converted_result_show_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,12 +33,12 @@ class CurrencyConverterHomePageState extends State<CurrencyConverterHomePage> {
       backgroundColor: const Color.fromARGB(181, 117, 138, 255),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 16.0, vertical: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0,),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                kHeight15,
                 const HeadingWidget(),
                 kHeight50,
                 Card(
@@ -54,7 +54,7 @@ class CurrencyConverterHomePageState extends State<CurrencyConverterHomePage> {
                         if (state.message != null) {
                           if (state.message!.isNotEmpty) {
                             MessageShowhelper.showSnackbar(
-                              context: context,
+                                context: context,
                                 snackBarContent: state.message!);
                           }
                         }
@@ -103,14 +103,22 @@ class CurrencyConverterHomePageState extends State<CurrencyConverterHomePage> {
                               amountController: amountController,
                             ),
                             kHeight20,
-               state.isConverted? const ConvertedCurrencyShowWidget():zeroMeasuredWidget,
+                            state.isConverted
+                                ? const ConvertedCurrencyShowWidget()
+                                : zeroMeasuredWidget,
                           ],
                         );
                       },
                     ),
                   ),
                 ),
-                
+
+                kHeight15,
+                lastFiveConversionTitleWidget(),
+                kHeight10,
+                // Table for displaying last five conversions
+                const LastFiveConvertedResultShowWidget(),
+                kHeight15,
               ],
             ),
           ),

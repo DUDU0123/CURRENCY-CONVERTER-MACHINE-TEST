@@ -1,3 +1,4 @@
+import 'package:currency_converter/features/home/domain/entity/converted_currency_entity.dart';
 import 'package:currency_converter/features/home/domain/entity/currency_conversion_params.dart';
 import 'package:currency_converter/features/home/domain/entity/currency_entity.dart';
 import 'package:currency_converter/features/home/domain/usecases/convert_currency_usecase.dart';
@@ -25,7 +26,9 @@ class CurrencyManagerCubit extends Cubit<CurrencyManagerState> {
           emit(state.copyWith(message: failure.message));
         },
         (allCurrenciesModel) {
-          emit(state.copyWith(allCurrenciesModel: allCurrenciesModel));
+          emit(state.copyWith(
+            allCurrenciesModel: allCurrenciesModel,
+          ));
         },
       );
     } catch (e) {
@@ -56,15 +59,45 @@ class CurrencyManagerCubit extends Cubit<CurrencyManagerState> {
       );
       result.fold(
         (failure) {
-          print("Fetching currencies...${failure.message}"); 
+          // print("Fetching currencies...${failure.message}");
           emit(state.copyWith(message: failure.message, isConverted: false));
         },
         (convertedResult) {
-
-          print("Fetching currencies...$convertedResult"); 
-          emit(state.copyWith(convertedResult: convertedResult,isConverted: true ));
+          final convertedCurrency = ConvertedCurrencyEntity(
+            amountToConvert: double.parse(amountToConvert),
+            convertedAmount: convertedResult,
+            from: from,
+            to: to,
+          );
+          // take the already stored list and now converted currency data
+          final updatedConversions = [
+            ...state.lastFiveConversion,
+            convertedCurrency
+          ];
+          emit(state.copyWith(
+            convertedResult: convertedResult,
+            isConverted: true,
+          ));
+          // call the last five conversion get method here
+          getLastFiveConversion(convertedCurrenciesList: updatedConversions);
         },
       );
+    } catch (e) {
+      emit(state.copyWith(message: e.toString()));
+    }
+  }
+  // method for get the last five conversion
+  void getLastFiveConversion(
+      {required List<ConvertedCurrencyEntity> convertedCurrenciesList}) {
+    try {
+      List<ConvertedCurrencyEntity> lastFiveConversion = [];
+      if (convertedCurrenciesList.length <= 5) {
+        lastFiveConversion = [...convertedCurrenciesList];
+      } else {
+        lastFiveConversion = convertedCurrenciesList.sublist(
+            convertedCurrenciesList.length - 5, convertedCurrenciesList.length);
+      }
+      emit(state.copyWith(lastFiveConversion: lastFiveConversion));
     } catch (e) {
       emit(state.copyWith(message: e.toString()));
     }
