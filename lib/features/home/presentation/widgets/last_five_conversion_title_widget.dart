@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 Widget lastFiveConversionTitleWidget() {
   return const TextWidgetCommon(
-    text: "Last Five Conversions",
+    text: "Last Conversions",
     textColor: kWhite,
     fontWeight: FontWeight.w500,
     fontSize: 20,

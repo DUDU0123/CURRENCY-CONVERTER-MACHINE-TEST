@@ -33,7 +33,9 @@ class CurrencyConverterHomePageState extends State<CurrencyConverterHomePage> {
       backgroundColor: const Color.fromARGB(181, 117, 138, 255),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0,),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+          ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,10 +114,7 @@ class CurrencyConverterHomePageState extends State<CurrencyConverterHomePage> {
                     ),
                   ),
                 ),
-
                 kHeight15,
-                lastFiveConversionTitleWidget(),
-                kHeight10,
                 // Table for displaying last five conversions
                 const LastFiveConvertedResultShowWidget(),
                 kHeight15,
