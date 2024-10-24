@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:currency_converter/core/exception/exceptions.dart';
 import 'package:currency_converter/features/home/data/model/currency_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:currency_converter/core/constants/api_constants.dart';
 
 abstract interface class CurrencyData {
@@ -18,16 +14,16 @@ abstract interface class CurrencyData {
 }
 
 class CurrencyDataImpl extends CurrencyData {
-  final http.Client client;
+  final Dio client;
   CurrencyDataImpl({
     required this.client,
   });
    @override
   Future<CurrencyModel> getAllCurrencies() async {
     try {
-      final response = await client.get(Uri.parse(ApiEndPoints.apiUrl));
+      final response = await client.get(ApiEndPoints.apiUrl);
       if (response.statusCode == 200) {
-        Map<String, dynamic> data = jsonDecode(response.body);
+        Map<String, dynamic> data = response.data;
         return CurrencyModel.fromJson(json: data);
       } else {
         final response =
@@ -35,18 +31,17 @@ class CurrencyDataImpl extends CurrencyData {
         return response;
       }
     } catch (e) {
-      log(e.toString());
       throw ServerException(message: 'An unexpected error occured');
     }
   }
 
   @override
   Future<CurrencyModel> fetchCurrenciesFromFallback(String url) async {
-    final response = await client.get(Uri.parse(ApiEndPoints.fallBackUrl));
+    final response = await client.get(ApiEndPoints.fallBackUrl);
 
     try {
       if (response.statusCode == 200) {
-        Map<String, dynamic> data = jsonDecode(response.body);
+        Map<String, dynamic> data = response.data;
         return CurrencyModel.fromJson(json: data);
       } else {
         throw ServerException(message: 'Unable to find currencies');
@@ -64,10 +59,10 @@ class CurrencyDataImpl extends CurrencyData {
     try {
       if (from != null && to != null && amountToConvert.isNotEmpty) {
         final response =
-            await client.get(Uri.parse(ApiEndPoints.conversionEndPoint(fromCurrency: from)));
+            await client.get(ApiEndPoints.conversionEndPoint(fromCurrency: from));
 
         if (response.statusCode == 200) {
-          final Map<String, dynamic> fromMap = jsonDecode(response.body)[from];
+          final Map<String, dynamic> fromMap =response.data[from];
           if (fromMap.containsKey(to)) {
             double rate = fromMap[to];
             return (rate * double.parse(amountToConvert)).round().toDouble();
@@ -80,11 +75,9 @@ class CurrencyDataImpl extends CurrencyData {
       } else {
         throw ServerException(message: 'Provide valid data');
       }
-    } on HttpException catch (_, stackTrace) {
-      log("StackTrace $stackTrace");
+    } on DioException catch (e, _) {
       throw ServerException(message: 'Check your network connection');
-    } catch (e, stackTrace) {
-      log("StackTrace $stackTrace");
+    } catch (e, _) {
       throw Exception(e.toString());
     }
   }
