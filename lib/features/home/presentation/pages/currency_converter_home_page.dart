@@ -6,7 +6,6 @@ import 'package:currency_converter/features/home/presentation/widgets/build_curr
 import 'package:currency_converter/features/home/presentation/widgets/converted_currency_show_widget.dart';
 import 'package:currency_converter/features/home/presentation/widgets/currency_convert_button.dart';
 import 'package:currency_converter/features/home/presentation/widgets/heading_widget.dart';
-import 'package:currency_converter/features/home/presentation/widgets/last_five_conversion_title_widget.dart';
 import 'package:currency_converter/features/home/presentation/widgets/last_five_converted_result_show_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +55,6 @@ class CurrencyConverterHomePageState extends State<CurrencyConverterHomePage> {
                         if (state.message != null) {
                           if (state.message!.isNotEmpty) {
                             MessageShowhelper.showSnackbar(
-                                context: context,
                                 snackBarContent: state.message!);
                           }
                         }

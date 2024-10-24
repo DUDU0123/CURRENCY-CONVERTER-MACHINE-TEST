@@ -11,8 +11,7 @@ void main() {
     BlocProvider(
       create: (context) =>
           serviceLocator<CurrencyManagerCubit>()..getAllCurrencies(),
-      child:
-       const RootWidgetPage(),
+      child: const RootWidgetPage(),
     ),
   );
 }
