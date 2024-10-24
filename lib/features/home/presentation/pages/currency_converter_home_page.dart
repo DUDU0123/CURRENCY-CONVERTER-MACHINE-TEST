@@ -55,6 +55,7 @@ class CurrencyConverterHomePageState extends State<CurrencyConverterHomePage> {
                         if (state.message != null) {
                           if (state.message!.isNotEmpty) {
                             MessageShowhelper.showSnackbar(
+                                context: context,
                                 snackBarContent: state.message!);
                           }
                         }

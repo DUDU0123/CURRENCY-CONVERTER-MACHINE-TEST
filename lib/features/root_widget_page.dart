@@ -14,7 +14,7 @@ class RootWidgetPage extends StatefulWidget {
 class _RootWidgetPageState extends State<RootWidgetPage> {
   @override
   void initState() {
-    ConnectionChecker.listenForConnectionChanges();
+    ConnectionChecker.listenForConnectionChanges(context: context);
     super.initState();
   }
 

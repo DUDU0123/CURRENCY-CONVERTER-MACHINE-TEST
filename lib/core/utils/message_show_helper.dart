@@ -38,9 +38,9 @@ class MessageShowhelper {
   }
 
  static void showSnackbar({
-    required String snackBarContent,
+    required String snackBarContent,required BuildContext context
   }) {
-    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: TextWidgetCommon(
           text: snackBarContent,textColor: kWhite,
